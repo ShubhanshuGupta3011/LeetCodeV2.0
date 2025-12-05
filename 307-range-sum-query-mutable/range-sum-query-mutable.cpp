@@ -1,7 +1,6 @@
 class NumArray {
 public:
     vector<int> ft = {0};
-
     NumArray(vector<int>& nums) {
         for(int i=0;i<nums.size();i++){
             ft.push_back(0);
@@ -33,9 +32,7 @@ public:
     }
     
     int sumRange(int left, int right) {
-        left++;
-        right++;
-        return helper(right)-helper(left-1);
+        return helper(++right)-helper(++left-1);
     }
 };
 
