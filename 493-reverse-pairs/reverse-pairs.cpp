@@ -21,33 +21,13 @@ public:
         os.insert({x, id});
         return id;
     }
-    void erase_by_pair(long long x, long long id) {
-        auto it = os.find({x, id});
-        if (it != os.end()) {
-            os.erase(it);
-        }
-    }
-    void erase_value(long long x) {
-        auto it = os.lower_bound({x, -1});
-        if (it != os.end() && it->first == x) {
-            os.erase(it);
-        }
-    }
     long long count_smaller(long long x) {
         return os.order_of_key({x,-1});
-    }
-    long long count_greater(int x) {
-        int le_count = os.order_of_key({x,1e9});
-        return (int)os.size() - le_count;
-    }
-    long long current_size() {
-        return (int)os.size();
     }
     int reversePairs(vector<int>& nums) {
         reverse(nums.begin(),nums.end());
         int ans=0;
         for(auto it:nums){
-            // cout<<count_smaller(it)<<",";/
             ans += count_smaller(it);
             insert_val(1ll*2*it);
         }
