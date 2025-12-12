@@ -15,9 +15,6 @@ public:
                 return ta < tb; 
             return a[0] > b[0];  
         });
-        for(auto it:events){
-            cout<<it[0]<<" "<<it[1]<<" "<<it[2]<<endl;
-        }
         vector<int> ans(numberOfUsers,0);
         set<pair<int,int>> st;
         multiset<int> offline;
@@ -38,7 +35,6 @@ public:
                 int currTimestamp=stoi(it[1]);
                 while(!st.empty()){
                     auto top = *st.begin();
-                    cout<<top.first<<" "<<top.second<<" "<<endl;
                     if(top.first <= currTimestamp){
                         st.erase(top);
                         offline.erase(offline.find(top.second));
