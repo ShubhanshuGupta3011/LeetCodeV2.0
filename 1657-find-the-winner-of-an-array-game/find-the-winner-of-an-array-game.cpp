@@ -2,18 +2,18 @@ class Solution {
 public:
     int getWinner(vector<int>& arr, int k) {
         int n=arr.size();
-        map<int,int> mp;
+        int currWin=0;
         for(int i=1;i<n;i++){
             int first=arr[i-1];
             int second=arr[i];
             if(first>second){
                 swap(arr[i],arr[i-1]);
-                mp[first]++;
+                currWin++;
+                if(currWin==k) return first;
             }else{
-                mp[second]=1;
+                currWin=1;
+                if(currWin==k) return second;
             }
-            if(mp[first]==k) return first;
-            if(mp[second]==k) return second;
         }
         return *max_element(arr.begin(),arr.end());
     }
