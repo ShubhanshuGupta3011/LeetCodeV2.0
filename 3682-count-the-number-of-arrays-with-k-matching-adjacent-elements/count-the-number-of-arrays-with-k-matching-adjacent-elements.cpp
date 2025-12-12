@@ -23,5 +23,13 @@ public:
         res = multi(res,inverse(fact[k]));
         res = multi(res,inverse(fact[n-k-1]));
         return res;
+
+        /*
+        
+        formula used is 
+
+        nCr(n-1,k) * m * power(m-1,n-k-1);
+
+        */
     }
 };
