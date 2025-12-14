@@ -6,23 +6,28 @@ public:
     }
     int numberOfWays(string corridor) {
         int n=corridor.size();
-        vector<int> posOfSeat;
-        for(int i=0;i<n;i++){
-            if(corridor[i]=='S'){
-                posOfSeat.push_back(i);
-            }
+        int totalCount = 0;
+        for(auto it:corridor){
+            totalCount+=(it=='S');
         }
-        int totalSeat = posOfSeat.size();
-        if((totalSeat & 1) || !totalSeat) return 0;
-        vector<pair<int,int>> pairing;
+        if(!totalCount || (totalCount%2)) return 0;
+        int odd=-1,even=n;
+        int count=0;
+        int i=0;
         int res=1;
-        for(int i=1;i<totalSeat;i+=2){
-            pairing.push_back({posOfSeat[i-1],posOfSeat[i]});
-        }
-        for(int i=1;i<pairing.size();i++){
-            int start=pairing[i-1].second;
-            int end=pairing[i].first;
-            res=multi(res,end-start);
+        while(i<n){
+            if(corridor[i]=='S'){
+                count++;
+                if(count%2){
+                    odd=i;
+                }else{
+                    even=i;
+                }
+                if(odd>even){
+                    res=multi(res,odd-even);
+                }
+            }
+            i++;
         }
         return res;
     }
