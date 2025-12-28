@@ -21,11 +21,7 @@ public:
         for(int i=0;i<=nextDigit;i++){
             int nextTight = tight && (i==nextDigit);
             if(preValue == 10){
-                if(i){
-                    ans=add(ans,dfs(index+1,nextTight,i));
-                }else{
-                    ans=add(ans,dfs(index+1,nextTight,10));
-                }
+                ans=add(ans,dfs(index+1,nextTight,i?i:10));
             }else{
                 int diff = abs(preValue-i);
                 if(diff==1){
