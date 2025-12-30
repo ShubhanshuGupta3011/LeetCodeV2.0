@@ -4,13 +4,8 @@ public:
     long long dp[20][20][2][2];
 
     long long solve(int ind, int carry, bool za, bool zb) {
-        if (ind == s.length()) {
-            return !carry;
-        }
-        int n = s.length();
-        if (dp[ind][carry][za][zb] != -1) {
-            return dp[ind][carry][za][zb];
-        }
+        if (ind == s.length()) return !carry;
+        if (dp[ind][carry][za][zb] != -1) return dp[ind][carry][za][zb];
         int eda = (za ? 0 : 9);
         int edb = (zb ? 0 : 9);
         int sa = ((ind == 0) ? 1 : 0);
