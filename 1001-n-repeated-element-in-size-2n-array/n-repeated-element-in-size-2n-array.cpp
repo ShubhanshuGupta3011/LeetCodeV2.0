@@ -7,6 +7,6 @@ public:
             if(nums[i]==nums[i-2]) return nums[i];
             if(nums[i-1]==nums[i-2]) return nums[i-1];
         }
-        return nums[n-1];
+        return nums[0];
     }
 };
