@@ -25,8 +25,10 @@ public:
     vector<vector<string>> findLadders(string beginWord, string endWord,vector<string>& wordList) {
         queue<string> q;
         begin = beginWord;
-        int sz = beginWord.size();
-        unordered_set<string> st(wordList.begin(), wordList.end());
+        set<string> st;
+        for(auto it:wordList){
+            st.insert(it);
+        }
         q.push(beginWord);
         mp[beginWord] = 1;
         st.erase(beginWord);
@@ -36,7 +38,7 @@ public:
                 break;
             int level = mp[word];
             q.pop();
-            for (int i = 0; i < sz; i++) {
+            for (int i = 0; i < beginWord.size(); i++) {
                 char original = word[i];
                 for (char ch = 'a'; ch <= 'z'; ch++) {
                     word[i] = ch;
