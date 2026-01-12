@@ -1,7 +1,7 @@
 class Solution {
 public:
     string s;
-    long long dp[20][10][2][2];
+    long long dp[20][2][2][2];
     long long solve(int ind, int carry, bool za, bool zb) {
         if (ind == s.length()) return !carry;
         if (dp[ind][carry][za][zb] != -1) return dp[ind][carry][za][zb];
