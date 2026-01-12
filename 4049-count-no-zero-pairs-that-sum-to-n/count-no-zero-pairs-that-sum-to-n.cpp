@@ -1,8 +1,7 @@
 class Solution {
 public:
     string s;
-    long long dp[20][20][2][2];
-
+    long long dp[20][10][2][2];
     long long solve(int ind, int carry, bool za, bool zb) {
         if (ind == s.length()) return !carry;
         if (dp[ind][carry][za][zb] != -1) return dp[ind][carry][za][zb];
@@ -24,7 +23,7 @@ public:
     }
 
     long long countNoZeroPairs(long long n) {
-        this->s = to_string(n);
+        s = to_string(n);
         reverse(s.begin(), s.end());
         memset(dp, -1, sizeof(dp));
         return solve(0, 0, false, false);
