@@ -8,12 +8,8 @@ public:
         }
     }
     int getSum(int node){
-        int ans=0;
-        while(node){
-            ans+=ft[node];
-            node -= (node & -node);
-        }
-        return ans;
+        if(!node) return 0;
+        return ft[node] + getSum(node & (node-1));
     }
     void checker(int index,vector<int>& nums){
         if(index <= 0 || index >= nums.size()-1) return ;
