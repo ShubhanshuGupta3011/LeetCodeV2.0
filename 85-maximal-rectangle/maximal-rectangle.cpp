@@ -4,7 +4,6 @@ public:
         vector<int> ans(n,-1);
         stack<int> st;
         for(int i=0;i<n;i++){
-
             while(st.size() && heights[i]<heights[st.top()]){
                 st.pop();
             }
@@ -48,8 +47,7 @@ public:
         }
         for(int i=1;i<n;i++){
             for(int j=0;j<m;j++){
-                if(arr[i][j]==0) continue;
-                arr[i][j]+=arr[i-1][j];
+                arr[i][j] = arr[i][j] * (arr[i][j]+arr[i-1][j]);
             }
         }
         int ans=0;
