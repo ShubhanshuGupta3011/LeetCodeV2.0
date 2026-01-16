@@ -1,35 +1,30 @@
 class Solution {
 public:
-    vector<int> digit;
-    vector<int> vis={0,0,0,0,0,0,0,0,0,0};
-    int dp[11][2][2];
-    int dfs(int index,int tight,int lendingZero){
-        if(index == digit.size()){
+    string s;
+    int dp[10][2][2][1024];
+    int solve(int index,int tight,int leadingZero,int bitmask){
+        if(index >= s.size()){
             return 1;
         }
-        int nextDigit = tight ? digit[index]:9;
+        if(dp[index][tight][leadingZero][bitmask] != -1) return dp[index][tight][leadingZero][bitmask];
+        int d = tight ? s[index]-'0': 9;
         int ans = 0;
-        for(int i=0;i<=nextDigit;i++){
-            int nextTight = (tight && (i==nextDigit));
-            int nextLendingDigit = (lendingZero && i==0);
-            if(i || !lendingZero){
-                if(vis[i]==0){
-                    vis[i]=1;
-                    ans += dfs(index+1,nextTight,nextLendingDigit);
-                    vis[i]=0;
-                }
-            }else{
-                ans += dfs(index+1,nextTight,nextLendingDigit);
-            }            
+        for(int i=0;i<=d;i++){
+            int newTight = tight && (i==d);
+            int newLeadingZero = leadingZero && !i;
+            int currMask = pow(2,i);
+            if(newLeadingZero){
+                ans += solve(index+1,newTight,newLeadingZero,bitmask);
+                continue;
+            }
+            if(currMask & bitmask) continue;
+            ans += solve(index+1,newTight,newLeadingZero,bitmask+currMask);
         }
-        return ans;
+        return dp[index][tight][leadingZero][bitmask] = ans;
     }
     int countSpecialNumbers(int n) {
-        while(n){
-            digit.push_back(n%10);
-            n=n/10;
-        }
-        reverse(digit.begin(),digit.end());
-        return dfs(0,1,1)-1;
+        s = to_string(n);
+        memset(dp,-1,sizeof(dp));
+        return solve(0,1,1,0)-1;
     }
 };
