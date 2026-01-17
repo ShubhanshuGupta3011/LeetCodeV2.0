@@ -1,19 +1,17 @@
 class Solution {
 public: 
-    int LOG = 20;
     vector<int> depth;
     vector<vector<int>> up;
     int getLca(int u,int v){
         if(depth[u] < depth[v]) swap(u,v);
         int diff = depth[u]-depth[v];
-        for(int i=0;i<LOG;i++){
-            int mask = 1<<i;
-            if(mask & diff){
-                u = up[u][i];
-            }
+        while(diff){
+            int index = log2(diff & -diff);
+            diff -= (diff & -diff);
+            u = up[u][index];
         }
         if(u==v) return u;
-        for(int i=LOG-1;i>=0;i--){
+        for(int i=19;i>=0;i--){
             if(up[u][i] != up[v][i]){
                 u=up[u][i];
                 v=up[v][i];
@@ -25,7 +23,7 @@ public:
         vector<int> currFreq = freq[node];
         up[node][0] = parent;
         depth[node] = currDepth;
-        for(int i=1;i<LOG;i++){
+        for(int i=1;i<20;i++){
             up[node][i] = up[ up[node][i-1] ][i-1];
         }
         for(auto it:graph[node]){
