@@ -1,14 +1,20 @@
 class Solution {
 public:
-    int MOD = 1e9+7;
-    int add(int a,int b){
-        return (a+b)%MOD;
-    }
-    int multi(int a,int b){
-        return (1ll*a*b)%MOD;
-    }
     using T = vector<vector<int>> ;
-    T I;
+    T I = {
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}
+    };
     T M = {
         {23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {1, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -34,6 +40,13 @@ public:
         }
         return ans;
     }
+    int MOD = 1e9+7;
+    int add(int a,int b){
+        return (a+b)%MOD;
+    }
+    int multi(int a,int b){
+        return (1ll*a*b)%MOD;
+    }
     T power(int n){
         T ans = I;
         T part = M;
@@ -45,11 +58,11 @@ public:
         return ans;
     }
     int stringCount(int n) {
-        for(int i=0;i<12;i++){
-            vector<int> temp(12,0);
-            temp[i]=1;
-            I.push_back(temp);
-        }
+        // for(int i=0;i<12;i++){
+        //     vector<int> temp(12,0);
+        //     temp[i]=1;
+        //     I.push_back(temp);
+        // }
         T res = power(n);
         return res[11][0];
     }
