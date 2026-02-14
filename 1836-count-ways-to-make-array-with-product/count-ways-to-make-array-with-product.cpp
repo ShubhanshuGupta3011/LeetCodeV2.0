@@ -1,50 +1,47 @@
 class Solution {
 public:
-    int MOD = 1e9 + 7;
-    vector<int> fact;
-    int multi(int a, int b) { return (1ll * a * b) % MOD; }
-    int power(int x, int n) {
-        if (n < 2) return n ? x : 1;
-        int f = power(x, n % 2);
-        int s = power(multi(x, x), n / 2);
-        return multi(f, s);
+    int mod=1e9+7;
+    int add(int a,int b){
+        if(a+b >= mod) return a+b-mod;
+        return a+b;
     }
-    int inverse(int n) { return power(n, MOD - 2); }
-    int nCr(int n, int r) {
-        cout<<"n = "<<n<<",";
-        int ans = fact[n];
-        ans = multi(ans, inverse(fact[r]));
-        ans = multi(ans, inverse(fact[n - r]));
+    int multi(int a,int b){
+        return (1ll*a*b)%mod;
+    }
+    vector<int> prime = {2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97};
+    int dp[10100][15] = {0};
+    vector<int> generate(vector<int>& arr){
+        vector<int> ans = arr;
+        for(int i=1;i<15;i++){
+            ans[i]=add(ans[i],arr[i-1]);
+        }
         return ans;
     }
-    int helper(int n, int k) {
-        int ans = 1;
-        int pc = 0;
-        while ((k % 2) == 0) {
-            k = k / 2;
-            pc++;
-        }
-        ans = multi(ans, nCr(pc + n - 1, n - 1));
-        for (int i = 3; i <= sqrt(k); i += 2) {
-            if (k % i) continue;
-            pc = 0;
-            while ((k % i) == 0) {
-                k = k / i;
-                pc++;
+    int nCr(int n,int r){
+        return dp[n][r];
+    }
+    int helper(int n,int k){
+        int ans=1;
+        for(auto it:prime){
+            int fact=0;
+            while(k%it == 0){
+                k=k/it;
+                fact++;
             }
-            ans = multi(ans, nCr(pc + n - 1, n - 1));
+            ans=multi(ans,nCr(fact+n-1,fact));
         }
-        if (k != 1) ans = multi(ans, n);
+        if(k!=1) ans=multi(ans,n);
         return ans;
     }
     vector<int> waysToFillArray(vector<vector<int>>& queries) {
-        fact.resize(10101, 1);
-        for (int i = 1; i <= 10100; i++) {
-            fact[i] = multi(fact[i - 1], i);
+        dp[0][0]=1;
+        for(int i=1;i<10100;i++){
+            for(int j=0;j<15;j++) dp[i][j] = dp[i-1][j];
+            for(int j=1;j<15;j++) dp[i][j] = add(dp[i][j],dp[i-1][j-1]);
         }
         vector<int> ans;
-        for (auto it : queries) {
-            ans.push_back(helper(it[0], it[1]));
+        for(auto it:queries){
+            ans.push_back(helper(it[0],it[1]));
         }
         return ans;
     }
