@@ -17,6 +17,6 @@ public:
             }
             result = nextResult;
         }
-        return ans>=1.0 ? 1.0 : ans;
+        return min(ans,1.0);
     }
 };
