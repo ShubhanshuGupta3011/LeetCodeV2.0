@@ -10,42 +10,34 @@ public:
     vector<int> power;
     vector<int> bit;
     int timer = 0;
-
     vector<int> parent[20];
 
-    /* ---------------- Fenwick Tree ---------------- */
-
     void fenwickUpdate(int i,int val){
-        for(; i < (int)bit.size(); i += i&-i){
+        while(i<bit.size()){
             bit[i] ^= val;
+            i+=(i&-i);
         }
     }
 
     int fenwickQuery(int i){
         int ans = 0;
-        for(; i>0; i -= i&-i){
-            ans ^= bit[i];
+        while(i){
+            ans = ans ^ bit[i];
+            i -= (i & -i);
         }
         return ans;
     }
 
-    /* ---------------- DFS + Euler Tour ---------------- */
-
     void dfs(int node,int par,int d){
         parent[0][node] = par;
         depth[node] = d;
-
         tin[node] = ++timer;
-
         for(auto it:graph[node]){
             if(it==par) continue;
             dfs(it,node,d+1);
         }
-
         tout[node] = timer;
     }
-
-    /* ---------------- LCA ---------------- */
 
     int getLca(int u,int v){
         if(depth[u] < depth[v]) swap(u,v);
@@ -68,8 +60,6 @@ public:
         return parent[0][u];
     }
 
-    /* ---------------- Fenwick subtree update ---------------- */
-
     void updateNode(int node,int diffXor){
         fenwickUpdate(tin[node], diffXor);
         fenwickUpdate(tout[node]+1, diffXor);
@@ -85,23 +75,13 @@ public:
 
     bool isPalindrome(int u,int v){
         int lca = getLca(u,v);
-
         int totalXor = getPreXor(u) ^ getPreXor(v);
         totalXor ^= power[s[lca]-'a'];
-
         return totalXor==0 || isPowerOfTwo(totalXor);
     }
 
-    /* ---------------- Main Function ---------------- */
-
-    vector<bool> palindromePath(
-        int n,
-        vector<vector<int>>& edges,
-        string _s,
-        vector<string>& queries
-    ) {
+    vector<bool> palindromePath(int n,vector<vector<int>>& edges,string _s,vector<string>& queries) {
         s = _s;
-
         graph.assign(n,{});
         depth.assign(n,0);
         tin.assign(n,0);
@@ -109,8 +89,6 @@ public:
         power.assign(26,1);
         bit.assign(n+2,0);
         timer = 0;
-
-        /* IMPORTANT FIX — resize parent table */
         for(int i=0;i<20;i++){
             parent[i].assign(n,0);
         }
@@ -125,22 +103,16 @@ public:
         }
 
         dfs(0,0,1);
-        parent[0][0] = 0;   // safety for root
-
-        /* build binary lifting table */
+        parent[0][0] = 0; 
         for(int i=1;i<20;i++){
             for(int j=0;j<n;j++){
                 parent[i][j] = parent[i-1][ parent[i-1][j] ];
             }
         }
-
-        /* initial build */
         for(int i=0;i<n;i++){
             updateNode(i, power[s[i]-'a']);
         }
-
         vector<bool> ans;
-
         for(auto &it:queries){
             string a,b,c;
             stringstream ss(it);
@@ -163,7 +135,6 @@ public:
                 }
             }
         }
-
         return ans;
     }
 };
