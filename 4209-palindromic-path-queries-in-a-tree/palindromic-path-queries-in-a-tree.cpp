@@ -64,14 +64,14 @@ public:
     }
 
     bool isPowerOfTwo(int x){
-        return x && !(x&(x-1));
+        return !(x&(x-1));
     }
 
     bool isPalindrome(int u,int v){
         int lca = getLca(u,v);
         int totalXor = getPreXor(u) ^ getPreXor(v);
         totalXor ^= power[s[lca]-'a'];
-        return totalXor==0 || isPowerOfTwo(totalXor);
+        return isPowerOfTwo(totalXor);
     }
 
     vector<bool> palindromePath(int n,vector<vector<int>>& edges,string _s,vector<string>& queries) {
