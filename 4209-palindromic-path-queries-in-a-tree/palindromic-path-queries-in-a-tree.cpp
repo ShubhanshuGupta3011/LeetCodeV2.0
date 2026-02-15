@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 class Solution {
 public:
     string s;
@@ -41,16 +38,13 @@ public:
 
     int getLca(int u,int v){
         if(depth[u] < depth[v]) swap(u,v);
-
         int diff = depth[u] - depth[v];
         for(int i=0;i<20;i++){
             if(diff&(1<<i)){
                 u = parent[i][u];
             }
         }
-
         if(u==v) return u;
-
         for(int i=19;i>=0;i--){
             if(parent[i][u]!=parent[i][v]){
                 u = parent[i][u];
