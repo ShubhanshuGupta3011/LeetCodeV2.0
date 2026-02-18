@@ -4,11 +4,27 @@ public:
     int add(int a,int b){
         return (a+b)%mod;
     }
-    int nCr(int n,int r,vector<vector<int>>& dp){
-        if(n<r) return 0;
-        if(r==0) return 1;
-        if(dp[n][r] != -1) return dp[n][r];
-        return dp[n][r] = add(nCr(n-1,r,dp),nCr(n-1,r-1,dp));
+    int multi(int a,int b){
+        return (1ll*a*b) % mod;
+    }
+    int power(int x,int n){
+        if(n<2) return n?x:1;
+        return multi(power(x,n&1),power(multi(x,x),n/2));
+    }
+    int inverse(int x){
+        return power(x,mod-2);
+    }
+    int nCr(int n,int r){
+        vector<int> fact(n+1,1);
+        for(int i=1;i<=n;i++){
+            fact[i]=multi(i,fact[i-1]);
+        }
+        vector<int> invFact(n+1,1);
+        invFact[n] = inverse(fact[n]);
+        for(int i=n-1;i>=0;i--){
+            invFact[i] = multi(i+1,invFact[i+1]);
+        }
+        return multi(fact[n],multi(invFact[r],invFact[n-r]));
     }
     int numberOfWays(int start, int end, int k) {
         int diff = abs(start-end);
@@ -18,8 +34,7 @@ public:
 
         if(mini<=end && end<=maxi){
             int gap = (end - mini)/2;
-            vector<vector<int>> dp(k+1,vector<int>(k+1,-1));
-            return nCr(k,gap,dp);
+            return nCr(k,gap);
         }
         return 0;
     }
