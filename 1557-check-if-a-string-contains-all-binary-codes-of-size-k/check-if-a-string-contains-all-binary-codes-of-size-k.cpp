@@ -1,13 +1,5 @@
 class Solution {
 public:
-    void helper(int k,string part,unordered_set<string>& look_up2){
-        if(k==0){
-            look_up2.insert(part);
-            return ;
-        }
-        helper(k-1,"1"+part,look_up2);
-        helper(k-1,"0"+part,look_up2);
-    }
     bool hasAllCodes(string s, int k) {
         int n = s.size();
         int number_of_substring = n - k + 1;
@@ -26,8 +18,6 @@ public:
             key.pop_back();
             look_up.insert(key);
         }
-        unordered_set<string> look_up2;
-        helper(k,"",look_up2);
-        return look_up == look_up2;
+        return look_up.size() == totalCase;
     }
 };
