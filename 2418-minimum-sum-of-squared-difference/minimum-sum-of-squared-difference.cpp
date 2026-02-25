@@ -19,7 +19,6 @@ public:
             for(auto it:mp){
                 int key = it.first; 
                 int freq = it.second;
-                cout<<"key = "<<key<<" freq = "<<freq<<" k = "<<k<<endl;
                 if(key == 0) return 0;
                 if(freq >= k){
                     mp[key] = freq-k;
@@ -37,7 +36,6 @@ public:
         for(auto it:mp){
             long long key = it.first;
             long long freq = it.second;
-            // cout<<"key = "<<key<<" freq = "<<freq<<endl;
             ans += freq * (key * key);
         }
         return ans;
