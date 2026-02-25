@@ -12,23 +12,20 @@
 class Solution {
 public:
     vector<string> ans;
-    void helper(TreeNode* root,string part){
+    int res = 0;
+    void helper(TreeNode* root,int part){
         if(root == NULL){
             return ;
         }
-        string nextPart = part + to_string(root->val);
+        int nextPart = 10 * part + (root->val);
         if(root->left == NULL && root->right==NULL){
-            ans.push_back(nextPart);
+            res += nextPart;
         }
         helper(root->left,nextPart);
         helper(root->right,nextPart);
     }
     int sumNumbers(TreeNode* root) {
-        helper(root,"");
-        int res = 0;
-        for(auto it:ans){
-            res += stoi(it);
-        }
+        helper(root,0);
         return res;
     }
 };
