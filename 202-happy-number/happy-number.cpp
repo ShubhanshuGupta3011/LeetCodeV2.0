@@ -9,13 +9,13 @@ public:
         return ans;
     }
     bool helper(int n,vector<int>& dp){
-        if(n >= 100) return helper(squareSum(n),dp);
+        if(n >= 730) return helper(squareSum(n),dp);
         if(dp[n] != -1) return dp[n];
         dp[n] = 0;
         return dp[n] = helper(squareSum(n),dp);
     }
     bool isHappy(int n) {
-        vector<int> dp(100,-1);
+        vector<int> dp(730,-1);
         dp[1] = 1;
         return helper(n,dp);
     }
