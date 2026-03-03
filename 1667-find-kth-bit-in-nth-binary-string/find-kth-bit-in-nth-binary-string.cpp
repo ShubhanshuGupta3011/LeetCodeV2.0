@@ -1,18 +1,16 @@
 class Solution {
 public:
-    string helper(string s){
-        string t = "";
-        for(int i=s.size()-1;i>=0;i--){
-            t+=(s[i]=='0'?'1':'0');
-        }
-        s += "1"+ t;
-        return s;
+    bool helper(int n,int k){
+        if(n==1) return 0;
+        int total = pow(2,n)-1;
+        int mid = (1+total)/2;
+        if(mid == k) return 1;
+        if(mid > k) return helper(n-1,k);
+        int newK = 2*mid - k;
+        return !helper(n-1,newK);
     }
     char findKthBit(int n, int k) {
-        string curr="0";
-        for(int i=2;i<=n;i++){
-            curr = helper(curr);
-        }
-        return curr[k-1];
+        bool ans = helper(n,k);
+        return ans?'1':'0';
     }
 };
