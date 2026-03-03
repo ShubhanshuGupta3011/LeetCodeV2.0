@@ -5,9 +5,10 @@ public:
         int total = pow(2,n)-1;
         int mid = (1+total)/2;
         if(mid == k) return 1;
+        // answer is on left side 
         if(mid > k) return helper(n-1,k);
-        int newK = 2*mid - k;
-        return !helper(n-1,newK);
+        // answer is on right side
+        return !helper(n-1, 2*mid - k);
     }
     char findKthBit(int n, int k) {
         bool ans = helper(n,k);
