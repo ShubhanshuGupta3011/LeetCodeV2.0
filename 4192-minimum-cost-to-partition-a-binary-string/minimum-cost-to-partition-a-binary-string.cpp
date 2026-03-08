@@ -1,25 +1,30 @@
 class Solution {
 public:
-    long long solve(string& s, int& ecost, int& fcost, int l, int r,vector<int>& pref){
-        int L = r-l;
-        int X = pref[r] - pref[l];
-
+    vector<long long> preSum;
+    long long subArraySum(int l,int r){
+        return preSum[r] - (l?preSum[l-1]:0);
+    }
+    long long helper(int low,int high,int encCost, int flatCost){
+        int size = high-low+1;
         long long cost;
-        if(X ==0)
-            cost = fcost;
-        else
-            cost = 1LL*L*X*ecost;
-        if(L%2)
-            return cost;
-        int m = (l + r)/2;
-        long long split = solve(s,ecost,fcost,l,m,pref)+solve(s,ecost,fcost,m,r,pref);
-        return min(cost,split);
+        int X = subArraySum(low,high);
+        if(X==0){
+            cost = flatCost;
+        }else{
+            cost = 1ll * size * X * encCost;
+        }
+        if(size%2) return cost;
+        int mid = (low+high)/2;
+        long long spilt = helper(low,mid,encCost,flatCost) + helper(mid+1,high,encCost,flatCost);
+        return min(cost,spilt);
     }
     long long minCost(string s, int encCost, int flatCost) {
         int n = s.size();
-        vector<int> pref(n+1,0);
-        for(int i = 0 ; i < n ; i++)
-            pref[i+1] = pref[i] + (s[i]=='1');
-        return solve(s,encCost,flatCost,0,n,pref);
+        preSum.resize(n);
+        preSum[0] = s[0]-'0';
+        for(int i=1;i<n;i++){
+            preSum[i] = preSum[i-1] + (s[i]-'0');
+        }
+        return helper(0,n-1,encCost,flatCost);
     }
 };
