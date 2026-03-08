@@ -1,14 +1,9 @@
 class Solution {
 public:
     string result(int i,int n){
-        cout<<"i = "<<i<<" n = "<<n<<endl;
         string ans = "";
         while(i){
-            if(i%2){
-                ans = "1" + ans;
-            }else{
-                ans = "0" + ans;
-            }
+            ans = to_string(i%2) + ans;
             i=i/2;
         }
         while(ans.size() < n){
