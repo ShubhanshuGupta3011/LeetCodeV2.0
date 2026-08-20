@@ -1,14 +1,6 @@
 class Solution {
 public:
     long long helper(long long mid){
-        /*
-        1050
-
-        9 - 1
-        90 - 2
-        900 - 3
-
-        */
         long long ln = log(mid+0.1)/log(10);
         long long value = 1;
         long long power = 1;
