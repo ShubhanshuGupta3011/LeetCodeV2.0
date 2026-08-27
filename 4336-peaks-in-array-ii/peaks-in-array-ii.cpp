@@ -7,12 +7,7 @@ public:
     vector<long long> start;
     vector<long long> end;
 
-    struct Data {
-        long long sum;
-        long long start;
-        long long end;
-        long long len;
-    };
+    using T = tuple<long long, long long, long long, long long>;
 
     long long helper(long long n){
         return (n * (n + 1)) / 2;
@@ -52,7 +47,6 @@ public:
 
         int mid = (low + high) / 2;
 
-        // Only go into the child containing index
         if(index <= mid)
             updateByIndex(2 * node + 1,low,mid,index);
         else
@@ -98,13 +92,11 @@ public:
         }
     }
 
-    Data getSum(int node,int low,int high,int l,int r){
+    T getSum(int node,int low,int high,int l,int r){
 
-        // Completely outside
         if(low > r || high < l)
             return {0,0,0,0};
 
-        // Completely inside
         if(l <= low && high <= r){
             return {
                 seg[node],
@@ -116,42 +108,50 @@ public:
 
         int mid = (low + high) / 2;
 
-        Data left =
+        T left =
             getSum(2 * node + 1,low,mid,l,r);
 
-        Data right =
+        T right =
             getSum(2 * node + 2,mid + 1,high,l,r);
 
-        // Only left exists
-        if(left.len == 0)
+        long long leftLen = get<3>(left);
+        long long rightLen = get<3>(right);
+
+        if(leftLen == 0)
             return right;
 
-        // Only right exists
-        if(right.len == 0)
+        if(rightLen == 0)
             return left;
 
-        Data ans;
+        long long leftSum = get<0>(left);
+        long long leftStart = get<1>(left);
+        long long leftEnd = get<2>(left);
 
-        ans.len = left.len + right.len;
+        long long rightSum = get<0>(right);
+        long long rightStart = get<1>(right);
+        long long rightEnd = get<2>(right);
 
-        ans.start =
-            left.start +
-            ((left.start == left.len) ?
-             right.start : 0);
+        long long newStart =
+            leftStart +
+            ((leftStart == leftLen) ? rightStart : 0);
 
-        ans.end =
-            right.end +
-            ((right.end == right.len) ?
-             left.end : 0);
+        long long newEnd =
+            rightEnd +
+            ((rightEnd == rightLen) ? leftEnd : 0);
 
-        ans.sum =
-            left.sum +
-            right.sum -
-            helper(left.end) -
-            helper(right.start) +
-            helper(left.end + right.start);
+        long long newSum =
+            leftSum +
+            rightSum -
+            helper(leftEnd) -
+            helper(rightStart) +
+            helper(leftEnd + rightStart);
 
-        return ans;
+        return {
+            newSum,
+            newStart,
+            newEnd,
+            leftLen + rightLen
+        };
     }
 
     vector<long long> countOfPeaks(vector<int>& nums, vector<vector<int>>& queries) {
@@ -187,10 +187,10 @@ public:
                     long long part1 =
                         helper(1LL * (ele - 2));
 
-                    Data temp =
+                    T temp =
                         getSum(0,0,n - 1,l + 1,r - 1);
 
-                    long long part2 = temp.sum;
+                    long long part2 = get<0>(temp);
 
                     res.push_back(part1 - part2);
                 }
