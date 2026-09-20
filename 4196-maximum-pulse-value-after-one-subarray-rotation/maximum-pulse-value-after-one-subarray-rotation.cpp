@@ -3,9 +3,9 @@ public:
     long long helper(vector<int>& arr){
         long long ans = 0;
         long long part = 0;
-        for(auto it:arr){
-            cout<<it<<",";
-        }cout<<endl;
+        // for(auto it:arr){
+        //     cout<<it<<",";
+        // }cout<<endl;
         for(auto it:arr){
             part += it;
             ans = min(ans,part);
@@ -13,7 +13,7 @@ public:
                 part=0;
             }
         }
-        cout<<"ans = "<<ans<<endl;
+        // cout<<"ans = "<<ans<<endl;
         return ans;
     }
     long long maxValue(vector<int>& nums) {
