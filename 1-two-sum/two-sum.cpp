@@ -527,7 +527,6 @@ struct SegmentTree {
 	}
 };
 
-
 // ============================================================
 // DSU
 // ============================================================
@@ -579,10 +578,120 @@ struct DSU {
 };
 
 
+
+// ============================================================
+// MonotonicStack
+// ============================================================
+
+struct MonotonicStack{
+    vi nums;
+    int n;
+    MonotonicStack(vi arr){
+        nums = arr;
+        n = sz(arr);
+    }
+    vi getNextGreaterOnRight(){
+        vi ans(n,n);
+        vi temp;
+        for(int i=0;i<n;i++){
+            while(sz(temp) && nums[i] > nums[temp.back()]){
+                ans[temp.back()] = i;
+                temp.pop_back();
+            }
+            temp.pb(i);
+        }
+        return ans;
+    }
+    vi getNextSmallerOnRight(){
+        vi ans(n,n);
+        vi temp;
+        for(int i=0;i<n;i++){
+            while(sz(temp) && nums[i] < nums[temp.back()]){
+                ans[temp.back()] = i;
+                temp.pop_back();
+            }
+            temp.pb(i);
+        }
+        return ans;
+    }
+    vi getNextGreaterOnLeft(){
+        vi ans(n,-1);
+        vi temp;
+        for(int i=0;i<n;i++){
+            while(sz(temp) && nums[i] >= nums[temp.back()]){
+                temp.pop_back();
+            }
+            if(sz(temp)){
+                ans[i] = temp.back();
+            }
+            temp.pb(i);
+        }
+        return ans;
+    }
+    vi getNextSmallerOnLeft(){
+        vi ans(n,-1);
+        vi temp;
+        for(int i=0;i<n;i++){
+            while(sz(temp) && nums[i] <= nums[temp.back()]){
+                temp.pop_back();
+            }
+            if(sz(temp)){
+                ans[i] = temp.back();
+            }
+            temp.pb(i);
+        }
+        return ans;
+    }
+};
+
+// ============================================================
+// KMP
+// ============================================================
+
+struct KMP {
+
+    vector<int> buildLPS(string& pattern) {
+        int n = pattern.size();
+        vector<int> lps(n);
+        for (int i = 1, j = 0; i < n; ) {
+            if (pattern[i] == pattern[j]) {
+                lps[i++] = ++j;
+            } else if (j) {
+                j = lps[j - 1];
+            } else {
+                lps[i++] = 0;
+            }
+        }
+        return lps;
+    }
+
+
+    vector<int> search(string& text, string& pattern) {
+        vector<int> lps = buildLPS(pattern);
+        vector<int> ans;
+        int n = text.size();
+        int m = pattern.size();
+        for (int i = 0, j = 0; i < n; ) {
+            if (text[i] == pattern[j]) {
+                i++;
+                j++;
+                if (j == m) {
+                    ans.push_back(i - m);
+                    j = lps[j - 1];
+                }
+            } else if (j) {
+                j = lps[j - 1];
+            } else {
+                i++;
+            }
+        }
+        return ans;
+    }
+};
+
 // ============================================================
 // MAIN
 // ============================================================
-
 
 class Solution {
 public:
