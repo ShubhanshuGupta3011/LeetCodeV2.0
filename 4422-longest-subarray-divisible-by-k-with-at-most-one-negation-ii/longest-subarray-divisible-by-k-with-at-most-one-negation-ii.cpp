@@ -216,31 +216,18 @@ public:
                 int e = idx[j].back();
                 if (s > e)
                     continue;
-                // debug(i);
-                // debug(j);
-                // debug(idx[i]);
-                // debug(idx[j]);
-                // debug(s);
-                // debug(e);
-                // debug(rem);
-                // debug(neg[rem]);
 
                 int l = lb(all(neg[rem]), s) - neg[rem].begin();
                 int r = ub(all(neg[rem]), e) - neg[rem].begin();
-                
-                if(l != sz(neg[rem])){
-                    if(neg[rem][l] == s){
+
+                if (l != sz(neg[rem])) {
+                    if (neg[rem][l] == s) {
                         l++;
                     }
                 }
-
-                // debug(l);
-                // debug(r);
                 if (r > l) {
                     ans = max(ans, e - s);
                 }
-
-                // cout<<endl;
             }
         }
         return ans;
