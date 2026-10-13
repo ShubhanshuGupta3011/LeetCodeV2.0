@@ -23,24 +23,14 @@ public:
             totalTimer[i][j] = 0;
             minTimer[i][j] = 0;
             return;
+        }  
+        totalTimer[i][j] = 1;
+        if(i==0 || i==3){
+            totalTimer[i][j] += 2 * totalTimer[i^1][j];
         }
-
-        if(i==1 || i==2){
-            totalTimer[i][j] = 1;
-            minTimer[i][j] = 1;
-            countTotalTimer += totalTimer[i][j];
-            countMinTimer += minTimer[i][j];
-        }else if(i==0){
-            totalTimer[i][j] = totalTimer[1][j] ? 3 : 1;
-            minTimer[i][j] = 1;
-            countTotalTimer += totalTimer[i][j];
-            countMinTimer += minTimer[i][j];
-        }else{
-            totalTimer[i][j] = totalTimer[2][j] ? 3 : 1;
-            minTimer[i][j] = 1;
-            countTotalTimer += totalTimer[i][j];
-            countMinTimer += minTimer[i][j];
-        }
+        minTimer[i][j] = 1;
+        countTotalTimer += totalTimer[i][j];
+        countMinTimer += minTimer[i][j];
 
         return;
     }
