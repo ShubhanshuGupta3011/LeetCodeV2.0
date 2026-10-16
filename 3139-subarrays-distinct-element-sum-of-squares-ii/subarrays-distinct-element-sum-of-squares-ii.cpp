@@ -22,7 +22,7 @@ public:
         ll l2 = end - mid;
 
         if (start != end) {
-            seg[2 * id].sqSum += l1 * lazy[id] * lazy[id] ;
+            seg[2 * id].sqSum += l1 * lazy[id] * lazy[id];
             seg[2 * id].sqSum += 2 * seg[2 * id].sum * lazy[id];
             seg[2 * id].sum += lazy[id] * l1;
             lazy[2 * id] += lazy[id];
@@ -31,14 +31,14 @@ public:
             seg[2 * id].sum %= mod;
             lazy[2 * id] %= mod;
 
-            seg[2 * id + 1].sqSum += l2 * lazy[id] * lazy[id] ;
+            seg[2 * id + 1].sqSum += l2 * lazy[id] * lazy[id];
             seg[2 * id + 1].sqSum += 2 * seg[2 * id + 1].sum * lazy[id];
             seg[2 * id + 1].sum += lazy[id] * l2;
             lazy[2 * id + 1] += lazy[id];
 
             seg[2 * id + 1].sqSum %= mod;
             seg[2 * id + 1].sum %= mod;
-            lazy[2 * id+ 1] %= mod;
+            lazy[2 * id + 1] %= mod;
         }
         lazy[id] = 0;
     }
