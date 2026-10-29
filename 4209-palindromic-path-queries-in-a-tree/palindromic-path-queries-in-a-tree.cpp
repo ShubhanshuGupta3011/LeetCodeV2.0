@@ -5,13 +5,13 @@ public:
     vector<int> depth;
     vector<int> tin, tout;
     vector<int> power;
-    vector<int> bit;
+    vector<int> Fenwick;
     int timer = 0;
     vector<int> parent[20];
 
     void fenwickUpdate(int i,int val){
-        while(i<bit.size()){
-            bit[i] ^= val;
+        while(i<Fenwick.size()){
+            Fenwick[i] ^= val;
             i+=(i&-i);
         }
     }
@@ -19,7 +19,7 @@ public:
     int fenwickQuery(int i){
         int ans = 0;
         while(i){
-            ans = ans ^ bit[i];
+            ans = ans ^ Fenwick[i];
             i -= (i & -i);
         }
         return ans;
@@ -81,7 +81,7 @@ public:
         tin.assign(n,0);
         tout.assign(n,0);
         power.assign(26,1);
-        bit.assign(n+2,0);
+        Fenwick.assign(n+2,0);
         timer = 0;
         for(int i=0;i<20;i++){
             parent[i].assign(n,0);
